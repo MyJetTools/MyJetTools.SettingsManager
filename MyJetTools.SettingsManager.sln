@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.Services", "MyJetTools.SettingsManager.Services\MyJetTools.SettingsManager.Services.csproj", "{1DD30493-1390-4048-9714-EF4CF37DBCEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.Client", "MyJetTools.SettingsManager.Client\MyJetTools.SettingsManager.Client.csproj", "{815C1A2B-6969-4287-BEFF-3D1EF21B1E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{815C1A2B-6969-4287-BEFF-3D1EF21B1E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815C1A2B-6969-4287-BEFF-3D1EF21B1E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815C1A2B-6969-4287-BEFF-3D1EF21B1E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815C1A2B-6969-4287-BEFF-3D1EF21B1E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
