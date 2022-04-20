@@ -29,5 +29,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./publish-api
           registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-          repository: myjettools/settings-,amager
+          repository: myjettools/settings-mamager
           tag_with_ref: true
