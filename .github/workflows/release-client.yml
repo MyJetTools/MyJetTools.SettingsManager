@@ -2,7 +2,7 @@ name: Release Service
 
 on:
   push:
-    tags: ["client-*"]
+    tags: "client-*"
 
 jobs:
   build:
@@ -17,7 +17,9 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test
         run: dotnet test --configuration Release
+      
       - name: Create the package - MyJetTools.SettingsManager.Client
-        run: dotnet pack --configuration Release MyJetTools.SettingsManager.Client/MyJetTools.SettingsManager.Client.csproj /p:Version=${GITHUB_REF#refs/tags/}
+        run: dotnet pack --configuration Release MyJetTools.SettingsManager.Client/MyJetTools.SettingsManager.Client.csproj /p:Version=${GITHUB_REF#refs/tags/client-}
+        
       - name: Publish the package
         run: dotnet nuget push MyJetTools.SettingsManager.Client/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}
