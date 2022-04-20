@@ -1,0 +1,80 @@
+@using MyJetTools.SettingsManager.Abstractions
+@using MudBlazor
+
+@inject ISecretRepository _secretRepository
+@inject TemplateMatcher _templateMatcher;
+@inject ISettingsTemplateRepository _repository;
+
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Template</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="Template.SettingsYamlTemplate" T="string" Label="Template" Style="color: white" Variant="Variant.Outlined" Text="@Template.SettingsYamlTemplate" Lines="10"/>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Template with secrets</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField Disabled="true" T="string" Label="Template" Style="color: white" Variant="Variant.Outlined" Text="@TemplateWithSecrets" Lines="10"/>
+            </MudCardContent>
+        </MudCard>
+    </DialogContent>
+
+    <DialogActions>
+        <MudCardActions>
+            <MudButton Disabled="@_processing" OnClick="@(async () => await Update())" Variant="Variant.Filled" Color="Color.Primary">
+                @if (_processing)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                    <MudText Class="ms-2">Adding</MudText>
+                }
+                else
+                {
+                    <MudText>Update config</MudText>
+                }
+            </MudButton>
+        </MudCardActions>
+
+        <MudButton OnClick="Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public SettingsTemplateModel Template { get; set; }
+
+    private string TemplateWithSecrets { get; set; }
+
+    private bool _processing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        TemplateWithSecrets = await _templateMatcher.MatchTemplate(Template.SettingsYamlTemplate);
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Update()
+    {
+        await _repository.UpdateSettingsTemplateAsync(Template);
+        Snackbar.Add("Success update", Severity.Success);
+        MudDialog.Close();
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

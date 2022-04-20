@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager", "MyJetTools.SettingsManager\MyJetTools.SettingsManager.csproj", "{516F7B13-B0B4-42F6-8E9C-E557D32A4FBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.Abstractions", "MyJetTools.SettingsManager.Abstractions\MyJetTools.SettingsManager.Abstractions.csproj", "{1B5AEA72-D7A0-4E38-B9C0-9FF9E543B1FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.MyNoSql", "MyJetTools.SettingsManager.MyNoSql\MyJetTools.SettingsManager.MyNoSql.csproj", "{2AB1AB98-0B9F-49E3-8D78-FCBC57BDE295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetTools.SettingsManager.Services", "MyJetTools.SettingsManager.Services\MyJetTools.SettingsManager.Services.csproj", "{1DD30493-1390-4048-9714-EF4CF37DBCEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{516F7B13-B0B4-42F6-8E9C-E557D32A4FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516F7B13-B0B4-42F6-8E9C-E557D32A4FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516F7B13-B0B4-42F6-8E9C-E557D32A4FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516F7B13-B0B4-42F6-8E9C-E557D32A4FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B5AEA72-D7A0-4E38-B9C0-9FF9E543B1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5AEA72-D7A0-4E38-B9C0-9FF9E543B1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5AEA72-D7A0-4E38-B9C0-9FF9E543B1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B5AEA72-D7A0-4E38-B9C0-9FF9E543B1FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB1AB98-0B9F-49E3-8D78-FCBC57BDE295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB1AB98-0B9F-49E3-8D78-FCBC57BDE295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB1AB98-0B9F-49E3-8D78-FCBC57BDE295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB1AB98-0B9F-49E3-8D78-FCBC57BDE295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DD30493-1390-4048-9714-EF4CF37DBCEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+@page "/SettingsTemplate"
+@using SettingsManager.Abstractions
+
+@inject ISettingsTemplateRepository _repository;
+
+@inject IDialogService Dialog
+@inject NavigationManager NavigationManager
+
+<MudExpansionPanel Text="Add template">
+    <AddSettingTemplateForm OnAdd="async () => await ReloadData()"/>
+</MudExpansionPanel>
+
+<MudTable Items="@_settingsTemplates" Hover="true" Breakpoint="Breakpoint.Sm">
+    <HeaderContent>
+        <MudTh>Env</MudTh>
+        <MudTh>Service name</MudTh>
+        <MudTh>Create date</MudTh>
+        <MudTh>Update date</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Env">@context.Env</MudTd>
+        <MudTd DataLabel="ServiceName">@context.ServiceName</MudTd>
+        <MudTd DataLabel="Create date">@context.CreateDate</MudTd>
+        <MudTd DataLabel="Last update">@context.LastUpdateDate</MudTd>
+        <MudTd DataLabel="Actions">
+            <MudButton Variant="Variant.Filled" OnClick="@(async () => await InfoDialog(context))" Size="Size.Small" Color="Color.Primary">
+                Show
+            </MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="@(async () => await RemoveConfig(context))" Size="Size.Small" Color="Color.Error">
+                Delete
+            </MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+@code {
+
+    private IEnumerable<ISettingsTemplate> _settingsTemplates = new List<ISettingsTemplate>();
+
+    private async Task ReloadData()
+    {
+        _settingsTemplates = await _repository.GetAllSettingsTemplatesAsync();
+        StateHasChanged();
+    }
+
+    private async Task RemoveConfig(ISettingsTemplate src)
+    {
+        await _repository.DeleteSettingsTemplateAsync(src.Env, src.ServiceName);
+        await ReloadData();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ReloadData();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task InfoDialog(ISettingsTemplate src)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Large, FullWidth = true
+        };
+
+        var parameters = new DialogParameters
+        {
+            ["Template"] = SettingsTemplateModel.Create(src),
+        };
+
+        await Dialog.Show<ConfigInfoDialog>("Config info", parameters, dialogOptions).Result;
+        await ReloadData();
+    }
+
+}

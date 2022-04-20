@@ -1,0 +1,101 @@
+@using Microsoft.AspNetCore.Components
+@using SettingsManager.Forms.SettingsTemplates
+@using BlazorMonacoYaml
+@using SettingsManager.Abstractions
+@using YamlDotNet.Serialization
+@using YamlDotNet.Serialization.NamingConventions
+
+@inject ISettingsTemplateRepository _settingsTemplateRepository
+@inject ISnackbar Snackbar
+
+
+<MudCard>
+    <MudForm Model="@_addModel" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
+        <MudCardContent>
+
+            <MudTextField @bind-Value="_addModel.Env"
+                          For="@(() => _addModel.Env)"
+                          Immediate="true"
+                          Label="Service env"/>
+
+            <MudTextField @bind-Value="_addModel.ServiceName"
+                          For="@(() => _addModel.ServiceName)"
+                          Immediate="true"
+                          Label="Service name"/>
+
+            <MudText Typo="Typo.h6">Yaml template</MudText>
+            <MonacoEditorYaml @ref="_yamlEditor" Id="monacoEditorYaml" CssClass="codeedit"/>
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Disabled="@_addFormProcessing" OnClick="@(async () => await AddSecret())" Variant="Variant.Filled" Color="Color.Primary">
+            @if (_addFormProcessing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                <MudText Class="ms-2">Adding</MudText>
+            }
+            else
+            {
+                <MudText>Add config</MudText>
+            }
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    public MudForm form;
+
+    private AddSettingTemplateModel _addModel = new();
+
+    private MonacoEditorYaml _yamlEditor { get; set; }
+
+    public readonly AddSettingsTemplateFormModel Validator = new();
+
+    private bool _addFormProcessing = false;
+
+    [Parameter]
+    public Func<Task> OnAdd { get; set; }
+
+    private bool ValidateYaml(string yamlString)
+    {
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(UnderscoredNamingConvention.Instance) // see height_in_inches in sample yml 
+            .Build();
+
+        try
+        {
+            deserializer.Deserialize<object>(yamlString);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    private async Task AddSecret()
+    {
+        _addModel.SettingsYamlTemplate = await _yamlEditor.GetValue();
+        if (form.IsValid)
+        {
+            _addFormProcessing = true;
+            var isValidYaml = ValidateYaml(_addModel.SettingsYamlTemplate);
+            if (!isValidYaml)
+            {
+                Snackbar.Add("Invalid Yaml", Severity.Error);
+                _addFormProcessing = false;
+                return;
+            }
+            await _settingsTemplateRepository.InsertSettingsTemplateAsync(_addModel);
+            await OnAdd();
+            Snackbar.Add("Added template success", Severity.Success);
+            _addFormProcessing = false;
+        }
+        else
+        {
+            Snackbar.Add("Invalid Form data", Severity.Error);
+            _addFormProcessing = false;
+        }
+    }
+
+}
