@@ -1,3 +1,5 @@
+using System.Net;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using MudBlazor.Services;
 using MyJetTools.SettingsManager;
 
@@ -9,6 +11,18 @@ builder.Services.BindServices(new SettingsAccessor());
 builder.Services.BindNoSql(new SettingsAccessor());
 builder.Services.AddMudServices();
 
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var httpPort = Environment.GetEnvironmentVariable("HTTP_PORT") ?? "80";
+    var grpcPort = Environment.GetEnvironmentVariable("GRPC_PORT") ?? "8080";
+
+    Console.WriteLine($"HTTP PORT: {httpPort}");
+    Console.WriteLine($"GRPC PORT: {grpcPort}");
+
+    options.Listen(IPAddress.Any, int.Parse(httpPort), o => o.Protocols = HttpProtocols.Http1);
+    options.Listen(IPAddress.Any, int.Parse(grpcPort), o => o.Protocols = HttpProtocols.Http2);
+});
 
 var app = builder.Build();
 
